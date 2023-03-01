@@ -1,0 +1,76 @@
+<br>
+<div class=" col-lg-4 col-md-6 ml-auto mr-auto" style="text-align: center;" id="welcome">
+  <h1>Bienvenido</h1>
+</div>
+
+
+<div class="container mt--8 pb-5  ">
+  <div class="row justify-content-center">
+    <div class="col-lg-5 col-md-7">
+      <div class="card  shadow border-0" [style]="darkTheme ? 'background: rgb(30 31 50)' : '' ">
+        <div class="card-header bg-transparent ">
+          <div class="card-body px-lg-5 py-lg-5">
+            <div class="text-center text-muted mb-4" id="title-credentials">
+              <p>Ingrese sus credenciales</p>
+            </div>
+            <form [formGroup]="loginForm">
+              <div class="form-group mb-3">
+                <div class="input-group input-group-alternative">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><em class="tim-icons icon-email-85" id="icon-email"></em></span>
+                  </div>
+                  <input class="form-control" formControlName='email' maxlength="50" placeholder="Email"
+                    type="email">
+                </div>
+                <div *ngIf="loginForm.controls.email.invalid && loginForm.controls.email.touched">
+                  <small id="validEmail" class="text-left" *ngIf="loginForm.controls.email.errors?.email">
+                    Debe ingresar un Email valido</small>
+                  <small id="requiredEmail" class="text-left" *ngIf="loginForm.controls.email.errors?.required">
+                    Se requiere ingresar Email</small>
+                </div>
+              </div>
+              <div class="form-group  mb-3">
+                <div class="input-group input-group-alternative">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><em class="tim-icons icon-lock-circle"
+                        id="icon-password"></em></span>
+                  </div>
+                  <input class="form-control" autocomplete="off" formControlName='password' placeholder="Password"
+                    type="password" />
+                </div>
+                <div *ngIf="loginForm.controls.password.invalid && loginForm.controls.password.touched">
+                  <small id="minLenghtPass" class="text-left" *ngIf="loginForm.controls.password.errors?.minlength">
+                    La longitud minima es 6 caracteres</small>
+                  <small id="requiredPass" class="text-left" *ngIf="loginForm.controls.password.errors?.required">
+                    Se requiere ingresar contraseña</small>
+                </div>
+              </div>
+
+              <div class="form-group mb-3">
+                <div class="input-group input-group-alternative">
+                  <div class="form-check">
+                    <input class="form-check-input mx-2" type="checkbox" formControlName='rememberMe'>
+                    <label class="form-check-label " >Mantener iniciado</label>
+                  </div>
+                </div>
+
+              </div>
+              <div class="text-center">
+                <button type="submit" (click)="onLogin()" class="btn btn-primary my-4" id="btnLogin"
+                  [disabled]="loginForm.invalid">Entrar</button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--Sweet Alert Is First Login -->
+<swal #swalIsFirstLogin [title]="'Es su primer login'" [text]="'Se recomienda cambiar su contraseña'"
+  [icon]="'warning'" [showCancelButton]="true" [confirmButtonText]="'Confirmar'" [cancelButtonText]="'Cancelar'"
+  (confirm)="confirmFirstLogin()" (dismiss)="dismissFirstLogin()">
+</swal>

@@ -1,0 +1,63 @@
+<form [formGroup]="createTaskForm">
+    <div class="modal-body">
+
+        <div class="col">
+            <div class="form-group">
+                <label for="labelTitle" class="col-form-label">Titulo (*)</label>
+                <input type="text" placeholder="Titulo" class="form-control" formControlName="title" maxlength="120">
+                <div *ngIf="createTaskForm.controls.title.invalid && createTaskForm.controls.title.touched">
+                    <small class="text-left" *ngIf="createTaskForm.controls.title.errors?.required">
+                        Se requiere titulo</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="form-group">
+                <label for="labelDateRange" class="col-form-label">Rango Fechas (*)</label>
+                <input readonly type="text" placeholder="Daterangepicker" class="form-control" bsDaterangepicker
+                    formControlName="dateRange">
+            </div>
+        </div>
+
+
+        <div class="col">
+            <div class="form-group">
+                <label for="labelTypes" class="col-form-label">Tipo (*)</label>
+                <ng-select [items]="listTypes" [multiple]="false" [closeOnSelect]="true" [hideSelected]="true"
+                    formControlName="codType" bindValue="codType" [clearable]="false" bindLabel="description"
+                    placeholder="Seleccionar tipo">
+                </ng-select>
+
+            </div>
+        </div>
+
+
+        <div class="col">
+            <div class="form-group">
+                <label for="labelDescription" class="col-form-label">Descripcion (*)</label>
+                <input type="text" placeholder="Descripcion" class="form-control" formControlName="description"
+                    maxlength="120">
+            </div>
+        </div>
+
+
+
+        <div class="col">
+            <div class="form-group">
+                <label for="labelUsers" class="col-form-label">Usuarios (*)</label>
+                <ng-select [items]="listUsers" [multiple]="true" [closeOnSelect]="false" [hideSelected]="true"
+                    [clearable]="false" bindLabel="name" placeholder="Seleccionar usuario" formControlName="users">
+                </ng-select>
+
+            </div>
+        </div>
+
+
+    </div>
+    <div class="modal-footer">
+        <button type="submit" id="btn-create-task" class="btn btn-primary" [disabled]="createTaskForm.invalid"
+            (click)="createTask()">
+            Crear Task</button>
+    </div>
+</form>

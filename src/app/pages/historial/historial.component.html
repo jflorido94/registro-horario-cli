@@ -1,0 +1,133 @@
+<div class="content">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <h3 id="title" class="mb-0">Historial Registros</h3>
+        </div>
+        <br />
+        <div class="row d-flex justify-content-around">
+          <div>
+            <button class="btn btn-success" (click)="download()">
+                <i class="fas fa-file-excel fa-fw"></i> Excel de entrega
+            </button>
+          </div>
+          <!-- <form [formGroup]="userForm" (change)="onChangeForm()"> -->
+          <ul class="pagination btn-group">
+            <button class="btn btn-info">
+              <a aria-label="Previous">
+                <i class="fa fa-backward" aria-hidden="true"></i>
+              </a>
+            </button>
+            <button class="btn btn-info">
+              <a>Actual</a>
+            </button>
+            <button class="btn btn-info">
+              <a aria-label="Next">
+                <i class="fa fa-forward" aria-hidden="true"></i>
+              </a>
+            </button>
+          </ul>
+          <!-- </form> -->
+          <div>
+            <button class="btn btn-info" (click)="editarRegistro({},false)">
+              <a><i class="fa fa-plus" aria-hidden="true"></i> Nuevo</a>
+            </button>
+          </div>
+        </div>
+
+        <!-- <div class="table-responsive"> -->
+        <table class="table table-hover table-sm caption-top">
+          <thead class="text-primary">
+            <tr>
+              <th scope="col">Dia</th>
+              <th scope="col">Entrada</th>
+              <th scope="col">Salida</th>
+              <th scope="col">Pausas</th>
+              <th scope="col">Extras</th>
+              <th scope="col">Total</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let registro of historial">
+            <tr>
+              <td>
+                {{ registro.dia | date: "d, EEEE" | titlecase }}
+              </td>
+              <td>
+                {{ registro.entrada }}
+              <sup><i *ngIf="registro.comentarioEntrada" class="fa fa-info-circle text-primary" title={{registro.comentarioEntrada}}></i></sup>
+              </td>
+              <td>
+                {{ registro.salida }}
+                <sup><i *ngIf="registro.comentarioSalida" class="fa fa-info-circle text-primary" title={{registro.comentarioSalida}}></i></sup>
+              </td>
+              <td>
+                <span *ngIf="registro.pausas.total != '00:00'">{{ registro.pausas.total }} h</span>
+                <sup><i *ngIf="registro.pausas.data[0]?.motivo" class="fa fa-info-circle text-primary" title={{registro.pausas.data[0].motivo.nombre}}></i></sup>
+              </td>
+              <td>
+                <span *ngIf="registro.extras.total != '00:00'">{{ registro.extras.total }} h</span>
+                <sup><i *ngIf="registro.extras.data[0]?.motivo" class="fa fa-info-circle text-primary" title={{registro.extras.data[0].motivo.nombre}}></i></sup>
+              </td>
+              <td>
+                <span *ngIf="registro.total">{{ registro.total }} h</span>
+              </td>
+              <td >
+                <i class="fas fa-edit fa-lg fa-fw mx-2 text-success" (click)="editarRegistro(registro,true)"></i>
+                <i class="fas fa-trash-alt fa-lg fa-fw mx-2 text-danger" (click)="eliminarRegistro(registro)"></i>
+              </td>
+
+              <!-- <td class="options" [swal]="{
+                                  title: 'Eliminar Usuario',
+                                  icon: 'warning',
+                                  showCancelButton: true,
+                                  text: 'Se va eliminar al usuario ' + user.username +' ¿Esta seguro?',
+                                  confirmButtonText: 'Confirmar',
+                                  cancelButtonText: 'Cancelar'}" (confirm)="deleteUser(user.id);">
+                                  <i class="tim-icons  icon-simple-remove"></i>
+                              </td> -->
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <!-- </div> -->
+  </div>
+</div>
+
+<!-- Modal Create User -->
+<!-- <div bsModal class="modal fade" #modalCreateUser="bs-modal" [config]="{backdrop: 'static'}"
+  (onHidden)="getAllUsers(); createUserOk = false" tabindex="-1" role="dialog" aria-labelledby="dialog-static-name">
+  <div class="modal-dialog modal-xl">
+
+      <div class="modal-content card">
+          <div class="modal-header">
+              <h4>Nuevo Usuario</h4>
+              <button type="button" class="btn-close close pull-right" aria-label="Close"
+                  (click)="modalCreateUser.hide()">
+                  <span>&times;</span>
+              </button>
+          </div>
+          <app-create-user (close)="modalCreateUser.hide()" *ngIf="createUserOk"></app-create-user>
+      </div>
+  </div>
+</div> -->
+
+<!-- Modal Edit User-->
+<!-- <div bsModal class="modal fade" #modalUpdateUser="bs-modal" [config]="{backdrop: 'static'}"
+  (onHidden)="getAllUsers() ; editUserOk = false" tabindex="-1" role="dialog" aria-labelledby="dialog-static-name">
+  <div class="modal-dialog modal-xl">
+      <div class="modal-content card">
+          <div class="modal-header">
+              <h4>Editar Usuario</h4>
+              <button id="btnCloseUpdateUser" type="button" class="btn-close close pull-right" aria-label="Close"
+                  (click)="modalUpdateUser.hide()">
+                  <span>&times;</span>
+              </button>
+          </div>
+          <app-update-user (close)="modalUpdateUser.hide()" [inputUser]="userSelected" *ngIf="editUserOk">
+          </app-update-user>
+      </div>
+  </div>
+</div> -->
