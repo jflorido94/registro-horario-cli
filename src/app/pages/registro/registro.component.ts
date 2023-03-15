@@ -68,7 +68,7 @@ export class RegistroComponent
         // console.log(res.registro);
         this.laboral =! res.jornada?.tipo_jornada.libre;
         this.iniciado = res.registro.entrada && !res.registro.salida;
-        this.pausado = res.registro.pausas.data[0]?.inicio && !res.registro.pausas.data[0]?.fin ;
+        this.pausado = res.registro.pausas.data[0]?.inicio && !res.registro.pausas.data[0]?.total ;
 
         // console.log('Pausado: '+this.pausado);
 
