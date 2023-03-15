@@ -1,0 +1,188 @@
+<div class="content">
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <h3 id="title-registro" class="mb-3">Asistencia</h3>
+          <h5>
+            <strong>{{ date | date: "fullDate" | uppercase }}</strong>
+          </h5>
+        </div>
+      </div>
+
+      <div class="card shadow">
+        <div
+          class="card-header border-0 container d-flex justify-content-center"
+        >
+          <h3>
+            Estado:
+            {{
+              iniciado
+                ? pausado
+                  ? "En pausa"
+                  : "Iniciado"
+                : extra
+                ? "Horas extras"
+                : "No iniciado"
+            }}
+          </h3>
+        </div>
+
+        <div
+          class="card-body border-0 d-flex justify-content-center"
+          *ngIf="laboral"
+        >
+          <div id="#outer" *ngIf="initAnimation">
+            <div [ngClass]="initAnimation ? 'border-box-animation' : ''"></div>
+          </div>
+          <mat-progress-spinner
+            [diameter]="215"
+            [color]="'warn'"
+            [mode]="'determinate'"
+            [value]="spinnerValue"
+          >
+          </mat-progress-spinner>
+
+          <div class="counter-down-center">
+            <countdown
+              #cd
+              (event)="restartCountdown($event)"
+              [config]="countDownConfig"
+            ></countdown>
+          </div>
+
+          <br />
+        </div>
+
+        <div
+          class="card-body border-0 d-flex justify-content-center"
+          *ngIf="!laboral"
+        >
+          <h3 id="title-day-not-valid" class="mb-3">Hoy no trabajas</h3>
+        </div>
+
+        <div class="card-footer border-0 mb-3 d-flex justify-content-center">
+          <button
+            type="button"
+            class="mx-2 btn btn-primary"
+            [swal]="swalRegisterStart"
+            id="btn-entry"
+            *ngIf="laboral && !iniciado"
+          >
+            Entrada
+          </button>
+          <button
+            type="button"
+            class="mx-2 btn btn-dark"
+            [swal]="swalRegisterStop"
+            id="btn-stop"
+            *ngIf="laboral && iniciado && !pausado"
+          >
+            Pausa
+          </button>
+          <button
+            type="button"
+            class="mx-2 btn btn-primary"
+            [swal]="swalRegisterBack"
+            id="btn-back"
+            *ngIf="laboral && pausado"
+          >
+            Volver
+          </button>
+          <button
+            type="button"
+            class="mx-2 btn btn-secondary"
+            [swal]="swalRegisterEnd"
+            id="btn-exit"
+            *ngIf="laboral && iniciado && !pausado"
+          >
+            Salida
+          </button>
+          <button
+            type="button"
+            class="mx-2 btn btn-info"
+            [swal]="swalExtra"
+            id="btn-staextra"
+            *ngIf="!extra && !iniciado"
+          >
+            Iniciar Extras
+          </button>
+          <button
+            type="button"
+            class="mx-2 btn btn-secondary"
+            [swal]="swalEndExtra"
+            id="btn-endextra"
+            *ngIf="extra"
+          >
+            Terminar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<swal
+  #swalRegisterStart
+  title="¿Algun comentario por inicio irregular?"
+  [input]="'text'"
+  [inputPlaceholder]="'Escribe comentario ...'"
+  [showCancelButton]="true"
+  [confirmButtonText]="'Registrar'"
+  [cancelButtonText]="'Cancelar'"
+  (confirm)="registerStart($event)"
+>
+</swal>
+<swal
+  #swalRegisterStop
+  title="¿Cual es el motivo de la pausa?"
+  [input]="'select'"
+  [inputOptions] = 'motivos'
+  [inputPlaceholder]="'Selecciona un motivo ...'"
+  [showCancelButton]="true"
+  [confirmButtonText]="'Pausar'"
+  [cancelButtonText]="'Cancelar'"
+  (confirm)="registerStop($event)"
+>
+</swal>
+<swal
+  #swalRegisterBack
+  title="¿Deseas volver de la pausa?"
+  [showCancelButton]="true"
+  [confirmButtonText]="'Volver'"
+  [cancelButtonText]="'Cancelar'"
+  (confirm)="registerBack($event)"
+>
+</swal>
+<swal
+  #swalExtra
+  title="¿Cual es el motivo de las horas extras?"
+  [input]="'select'"
+  [inputOptions] = 'motivos'
+  [inputPlaceholder]="'Selecciona un motivo ...'"
+  [showCancelButton]="true"
+  [confirmButtonText]="'Comenzar'"
+  [cancelButtonText]="'Cancelar'"
+  (confirm)="registerStaExtra($event)"
+>
+</swal>
+<swal
+  #swalEndExtra
+  title="¿Desea finalizar las horas extras?"
+  [showCancelButton]="true"
+  [confirmButtonText]="'Terminar'"
+  [cancelButtonText]="'Cancelar'"
+  (confirm)="registerEndExtra($event)"
+>
+</swal>
+<swal
+  #swalRegisterEnd
+  title="¿Algun comentario por salida irregular?"
+  [input]="'text'"
+  [inputPlaceholder]="'Escribe comentario ...'"
+  [showCancelButton]="true"
+  [confirmButtonText]="'Salir'"
+  [cancelButtonText]="'Cancelar'"
+  (confirm)="registerSalida($event)"
+>
+</swal>
